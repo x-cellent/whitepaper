@@ -310,6 +310,10 @@ And the API server responds with our requested object:
 }
 ```
 
+Finally we can clean up the cluster via:
+
+`kind delete cluster`
+
 # References
 - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
 - https://kind.sigs.k8s.io/docs/user/auditing/

@@ -2,57 +2,58 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-deny-ingress
+  name: default-deny
   namespace: frontend
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  
+    - Ingress
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-deny-ingress
+  name: default-deny
   namespace: backend
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: frontend-ingress
+  namespace: frontend
 spec:
   podSelector:
     matchLabels:
-      app: frontend
+      tier: frontend
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          role: ingress
-    ports:
-    - protocol: TCP
-      port: 80
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              role: ingress
+      ports:
+        - protocol: TCP
+          port: 80
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: backend-ingress
+  namespace: backend
 spec:
   podSelector:
     matchLabels:
-      app: backend
+      tier: backend
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          role: frontend
-    ports:
-    - protocol: TCP
-      port: 5432
-  
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 3306
